@@ -26,16 +26,10 @@ namespace RainbowAndTheDark {
             this.Graphics.PreferredBackBufferHeight = 640;
             this.IsMouseVisible = true;
             this.Content.RootDirectory = "Content";
-
-            Map = new Grid<UInt32>(this.MAP_SIZE, 0);
         }
 
         protected override void Initialize( ) {
-            for (UInt32 i = 0; i < Map.Width; i++) {
-                for (UInt32 j = 0; j < Map.Height; j++) {
-                    this.Map[i, j] = SimpleUtils.IRandom(2);
-                }
-            }
+            Map = SimpleUtils.CreateMapFromMaze(SimpleUtils.CreateMaze(MAP_SIZE));
             this.MapRender = new RenderTarget2D(this.GraphicsDevice, (Int32)(CellSize * MAP_SIZE.X), (Int32)(CellSize * MAP_SIZE.X));
 
             base.Initialize( );
@@ -73,6 +67,8 @@ namespace RainbowAndTheDark {
             if (Keyboard.IsKeyDown(Keys.Escape)) {
                 Exit( );
             }
+
+            // TODO: Update logic
 
             KeyboardPrevious = Keyboard;
             base.Update(time);

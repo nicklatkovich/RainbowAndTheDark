@@ -49,5 +49,23 @@ namespace RainbowAndTheDark {
 
         }
 
+        public void SetRegion(UPoint from, UPoint to, T value) {
+            for (UInt32 i = from.X; i < to.X; i++) {
+                for (UInt32 j = from.Y; j < to.Y; j++) {
+                    this[i, j] = value;
+                }
+            }
+        }
+
+        public Grid<T> Copy( ) {
+            Grid<T> result = new Grid<T>(this.Size, default(T));
+            for (uint i = 0; i < Width; i++) {
+                for (uint j = 0; j < Height; j++) {
+                    result[i, j] = this[i, j];
+                }
+            }
+            return result;
+        }
+
     }
 }
