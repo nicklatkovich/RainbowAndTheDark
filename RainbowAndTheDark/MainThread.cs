@@ -10,24 +10,33 @@ namespace RainbowAndTheDark {
         KeyboardState Keyboard;
         KeyboardState KeyboardPrevious = SimpleUtils.GetKeyboardState( );
 
-        Grid<UInt32> Map = new Grid<UInt32>(40u, 20u, 0);
+        public readonly UPoint MAP_SIZE = new UPoint(20, 10);
+
+        Grid<UInt32> Map;
+        UInt32 CellSize = 64;
         RenderTarget2D MapRender;
         Texture2D WallTexture;
 
+        public SpriteFont FontArial;
+
         public MainThread( ) {
             this.Graphics = new GraphicsDeviceManager(this);
+            //this.Graphics.IsFullScreen = true;
             this.Graphics.PreferredBackBufferWidth = 1280;
             this.Graphics.PreferredBackBufferHeight = 640;
+            this.IsMouseVisible = true;
             this.Content.RootDirectory = "Content";
+
+            Map = new Grid<UInt32>(this.MAP_SIZE, 0);
         }
 
         protected override void Initialize( ) {
             for (UInt32 i = 0; i < Map.Width; i++) {
                 for (UInt32 j = 0; j < Map.Height; j++) {
-                    Map[i, j] = SimpleUtils.IRandom(2);
+                    this.Map[i, j] = SimpleUtils.IRandom(2);
                 }
             }
-            this.MapRender = new RenderTarget2D(this.GraphicsDevice, (Int32)Map.Width * 32, (Int32)Map.Height * 32);
+            this.MapRender = new RenderTarget2D(this.GraphicsDevice, (Int32)(CellSize * MAP_SIZE.X), (Int32)(CellSize * MAP_SIZE.X));
 
             base.Initialize( );
         }
@@ -37,17 +46,21 @@ namespace RainbowAndTheDark {
 
             // TODO: load content
             this.WallTexture = Content.Load<Texture2D>("Walls/Wall0");
-            this.GraphicsDevice.SetRenderTarget(this.MapRender);
-            this.GraphicsDevice.Clear(Color.Transparent);
-            this.SpriteBatch.Begin( );
-            for (UInt32 i = 0; i < Map.Width; i++) {
-                for (UInt32 j = 0; j < Map.Height; j++) {
-                    if (Map[i, j] > 0) {
-                        this.SpriteBatch.Draw(this.WallTexture, new Rectangle((Int32)i * 32, (Int32)j * 32, 32, 32), Color.White);
+            this.FontArial = Content.Load<SpriteFont>("Fonts/Arial");
+
+            GraphicsDevice.SetRenderTarget(MapRender);
+            GraphicsDevice.Clear(Color.Transparent);
+            SpriteBatch.Begin( );
+            for (UInt32 i = 0; i < this.Map.Width; i++) {
+                for (UInt32 j = 0; j < this.Map.Height; j++) {
+                    if (this.Map[i, j] > 0) {
+                        this.SpriteBatch.Draw(this.WallTexture, new Rectangle(
+                            (Int32)(i * CellSize),
+                            (Int32)(j * CellSize), (Int32)CellSize, (Int32)CellSize), Color.White);
                     }
                 }
             }
-            this.SpriteBatch.End( );
+            SpriteBatch.End( );
             this.GraphicsDevice.SetRenderTarget(null);
         }
 
@@ -61,8 +74,6 @@ namespace RainbowAndTheDark {
                 Exit( );
             }
 
-            // TODO: update logic
-
             KeyboardPrevious = Keyboard;
             base.Update(time);
         }
@@ -72,7 +83,8 @@ namespace RainbowAndTheDark {
 
             // TODO: drawing code
             this.SpriteBatch.Begin( );
-            this.SpriteBatch.Draw(MapRender, Vector2.Zero, Color.White);
+            this.SpriteBatch.Draw(MapRender, new Rectangle(0, 0, MapRender.Width, MapRender.Height), Color.White);
+            this.SpriteBatch.DrawString(FontArial, time.ElapsedGameTime.TotalMilliseconds.ToString( ), Vector2.Zero, Color.Black);
             this.SpriteBatch.End( );
 
             base.Draw(time);
