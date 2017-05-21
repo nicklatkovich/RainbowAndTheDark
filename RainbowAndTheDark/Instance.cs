@@ -19,7 +19,7 @@ namespace RainbowAndTheDark {
             this.PositionPrevious = this.Position;
         }
 
-        public abstract void Draw(GameTime time, RenderTarget2D surface);
+        public abstract void Draw(GameTime time);
 
     }
 }

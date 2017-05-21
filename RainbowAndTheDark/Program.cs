@@ -3,10 +3,13 @@
 namespace RainbowAndTheDark {
 #if WINDOWS || LINUX
     public static class Program {
+
+        public static MainThread Thread;
+
         [STAThread]
         static void Main( ) {
-            using (var thread = new MainThread( ))
-                thread.Run( );
+            using (Thread = new MainThread( ))
+                Thread.Run( );
         }
     }
 #endif

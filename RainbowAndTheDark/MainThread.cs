@@ -6,9 +6,9 @@ using System;
 namespace RainbowAndTheDark {
     public class MainThread : Game {
         GraphicsDeviceManager Graphics;
-        SpriteBatch SpriteBatch;
-        KeyboardState Keyboard;
-        KeyboardState KeyboardPrevious = SimpleUtils.GetKeyboardState( );
+        public SpriteBatch SpriteBatch { get; protected set; }
+        public KeyboardState Keyboard { get; protected set; }
+        public KeyboardState KeyboardPrevious { get; protected set; } = SimpleUtils.GetKeyboardState( );
 
         public readonly UPoint MAP_SIZE = new UPoint(20, 10);
 
@@ -16,8 +16,8 @@ namespace RainbowAndTheDark {
         UInt32 CellSize = 64;
         RenderTarget2D MapRender;
         Texture2D WallTexture;
-
         public SpriteFont FontArial;
+        Player Player;
 
         public MainThread( ) {
             this.Graphics = new GraphicsDeviceManager(this);
@@ -31,6 +31,7 @@ namespace RainbowAndTheDark {
         protected override void Initialize( ) {
             Map = SimpleUtils.CreateMapFromMaze(SimpleUtils.CreateMaze(MAP_SIZE));
             this.MapRender = new RenderTarget2D(this.GraphicsDevice, (Int32)(CellSize * MAP_SIZE.X), (Int32)(CellSize * MAP_SIZE.X));
+            this.Player = new Player(new Vector2(64, 64));
 
             base.Initialize( );
         }
@@ -41,6 +42,7 @@ namespace RainbowAndTheDark {
             // TODO: load content
             this.WallTexture = Content.Load<Texture2D>("Walls/Wall0");
             this.FontArial = Content.Load<SpriteFont>("Fonts/Arial");
+            Player.Texture = Content.Load<Texture2D>("Instances/Characters/Player");
 
             GraphicsDevice.SetRenderTarget(MapRender);
             GraphicsDevice.Clear(Color.Transparent);
@@ -68,7 +70,7 @@ namespace RainbowAndTheDark {
                 Exit( );
             }
 
-            // TODO: Update logic
+            this.Player.Update(time);
 
             KeyboardPrevious = Keyboard;
             base.Update(time);
@@ -78,9 +80,10 @@ namespace RainbowAndTheDark {
             GraphicsDevice.Clear(Color.LightGray);
 
             // TODO: drawing code
-            this.SpriteBatch.Begin( );
+            this.SpriteBatch.Begin(rasterizerState: RasterizerState.CullNone);
             this.SpriteBatch.Draw(MapRender, new Rectangle(0, 0, MapRender.Width, MapRender.Height), Color.White);
-            this.SpriteBatch.DrawString(FontArial, time.ElapsedGameTime.TotalMilliseconds.ToString( ), Vector2.Zero, Color.Black);
+            //this.SpriteBatch.DrawString(FontArial, time.ElapsedGameTime.TotalMilliseconds.ToString( ), Vector2.Zero, Color.Black);
+            this.Player.Draw(time);
             this.SpriteBatch.End( );
 
             base.Draw(time);
