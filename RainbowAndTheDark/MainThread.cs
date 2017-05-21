@@ -20,6 +20,7 @@ namespace RainbowAndTheDark {
         public Texture2D SpotTexture { get; protected set; }
         public SpriteFont FontArial;
         Player Player;
+        Effect glslAddColor;
 
         public MainThread( ) {
             this.Graphics = new GraphicsDeviceManager(this);
@@ -47,11 +48,13 @@ namespace RainbowAndTheDark {
             SpotTexture = Content.Load<Texture2D>("Instances/Colors/Spot");
             this.FontArial = Content.Load<SpriteFont>("Fonts/Arial");
             Player.Texture = Content.Load<Texture2D>("Instances/Characters/Player");
+            glslAddColor = Content.Load<Effect>("Shaders/AddColors");
+
+            GraphicsDevice.SetRenderTarget(ColorsRender);
+            GraphicsDevice.Clear(Color.Transparent);
 
             GraphicsDevice.SetRenderTarget(MapRender);
-            GraphicsDevice.Clear(Color.Transparent);
-            GraphicsDevice.SetRenderTarget(MapRender);
-            GraphicsDevice.Clear(Color.Transparent);
+            GraphicsDevice.Clear(Color.DarkGray);
             SpriteBatch.Begin( );
             for (UInt32 i = 0; i < this.Map.Width; i++) {
                 for (UInt32 j = 0; j < this.Map.Height; j++) {
@@ -91,12 +94,14 @@ namespace RainbowAndTheDark {
                 GraphicsDevice.SetRenderTarget(null);
             }
 
-            GraphicsDevice.Clear(Color.LightGray);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: drawing code
-            this.SpriteBatch.Begin(rasterizerState: RasterizerState.CullNone);
+            glslAddColor.Parameters["ColorTexture"].SetValue(ColorsRender);
+            this.SpriteBatch.Begin(rasterizerState: RasterizerState.CullNone, effect: glslAddColor);
             this.SpriteBatch.Draw(MapRender, new Rectangle(0, 0, MapRender.Width, MapRender.Height), Color.White);
-            this.SpriteBatch.Draw(ColorsRender, new Rectangle(0, 0, MapRender.Width, MapRender.Height), Color.White);
+            this.SpriteBatch.End( );
+            this.SpriteBatch.Begin(rasterizerState: RasterizerState.CullNone);
             this.Player.Draw(time);
             this.SpriteBatch.End( );
 

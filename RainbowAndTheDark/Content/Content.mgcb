@@ -56,3 +56,9 @@
 /processorParam:TextureFormat=Color
 /build:Instances/Colors/Spot.png
 
+#begin Shaders/AddColors.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/AddColors.fx
+
