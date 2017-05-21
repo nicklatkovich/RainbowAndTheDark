@@ -12,6 +12,10 @@ namespace RainbowAndTheDark {
             this.Y = y;
         }
 
+        public UPoint(uint xy) : this(xy, xy) {
+
+        }
+
         public static UPoint Zero {
             get {
                 return new UPoint(0u, 0u);
@@ -24,6 +28,10 @@ namespace RainbowAndTheDark {
 
         public static explicit operator UPoint(Point p) {
             return new UPoint((uint)Math.Abs(p.X), (uint)Math.Abs(p.Y));
+        }
+
+        public Vector2 ToVector2( ) {
+            return new Vector2(X, Y);
         }
 
     }

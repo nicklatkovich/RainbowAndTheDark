@@ -12,8 +12,8 @@ namespace RainbowAndTheDark {
 
         public readonly UPoint MAP_SIZE = new UPoint(20, 10);
 
-        Grid<UInt32> Map;
-        UInt32 CellSize = 64;
+        public Grid<UInt32> Map;
+        public UInt32 CellSize = 64;
         RenderTarget2D MapRender;
         RenderTarget2D ColorsRender;
         Texture2D WallTexture;
@@ -32,10 +32,11 @@ namespace RainbowAndTheDark {
         }
 
         protected override void Initialize( ) {
-            Map = SimpleUtils.CreateMapFromMaze(SimpleUtils.CreateMaze(MAP_SIZE));
+            Tuple<Grid<uint>, UPoint> maze = SimpleUtils.CreateMaze(MAP_SIZE);
+            Map = SimpleUtils.CreateMapFromMaze(maze.Item1);
             this.MapRender = new RenderTarget2D(this.GraphicsDevice, (Int32)(CellSize * MAP_SIZE.X), (Int32)(CellSize * MAP_SIZE.X));
             this.ColorsRender = new RenderTarget2D(this.GraphicsDevice, (Int32)(CellSize * MAP_SIZE.X), (Int32)(CellSize * MAP_SIZE.X), false, SurfaceFormat.Color, DepthFormat.None, 1, RenderTargetUsage.PreserveContents);
-            this.Player = new Player(new Vector2(64, 64));
+            this.Player = new Player((maze.Item2.ToVector2( ) + new Vector2(0.5f)) * CellSize);
 
             base.Initialize( );
         }

@@ -92,7 +92,7 @@ namespace RainbowAndTheDark {
             return result;
         }
 
-        public static Grid<uint> CreateMaze(UPoint size) {
+        public static Tuple<Grid<uint>, UPoint> CreateMaze(UPoint size) {
             Grid<uint> result = new Grid<uint>(size, 3);
             result.SetRegion(new UPoint(1, 1), new UPoint(
                 result.Width - 1,
@@ -135,7 +135,7 @@ namespace RainbowAndTheDark {
                     }
                 }
             }
-            return result;
+            return new Tuple<Grid<uint>, UPoint>(result, start_pos);
         }
 
         public static Color ColorFromHSV(double hue, double saturation, double value) {
@@ -159,6 +159,21 @@ namespace RainbowAndTheDark {
                 case 4: return new Color(t, p, v);
                 default: return new Color(v, p, q);
             }
+        }
+
+        public static bool PlaceFree(Vector2 pos, Vector2 maskHalfSize, Grid<uint> map, UPoint cellSize) {
+            for (uint
+                i = (uint)(pos.X - maskHalfSize.X) / cellSize.X,
+                iTo = (uint)(pos.X + maskHalfSize.X) / cellSize.X; i <= iTo; i++) {
+                for (uint
+                    j = (uint)(pos.Y - maskHalfSize.Y) / cellSize.Y,
+                    jTo = (uint)(pos.Y + maskHalfSize.Y) / cellSize.Y; j <= jTo; j++) {
+                    if (map[i, j] > 0) {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
 
     }
