@@ -83,11 +83,13 @@ namespace RainbowAndTheDark {
         }
 
         protected override void Draw(GameTime time) {
-            GraphicsDevice.SetRenderTarget(ColorsRender);
-            this.SpriteBatch.Begin(rasterizerState: RasterizerState.CullNone);
-            this.Player.DrawSpot(time);
-            this.SpriteBatch.End( );
-            GraphicsDevice.SetRenderTarget(null);
+            if (Player.IsNeedToDrawSpot) {
+                GraphicsDevice.SetRenderTarget(ColorsRender);
+                this.SpriteBatch.Begin(rasterizerState: RasterizerState.CullNone);
+                this.Player.DrawSpot(time);
+                this.SpriteBatch.End( );
+                GraphicsDevice.SetRenderTarget(null);
+            }
 
             GraphicsDevice.Clear(Color.LightGray);
 

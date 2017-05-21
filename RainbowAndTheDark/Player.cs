@@ -15,6 +15,9 @@ namespace RainbowAndTheDark {
         Point MaskHalfSize = new Point(10, 16);
         bool ToLeft = true;
         Vector2 MaxSpeed = new Vector2(3);
+        public bool IsNeedToDrawSpot { get; protected set; } = true;
+        public float Hue = 0f;
+
 
         public Player(Vector2 position) : base(position) {
         }
@@ -37,16 +40,18 @@ namespace RainbowAndTheDark {
             } else if (Position.X > PositionPrevious.X) {
                 ToLeft = false;
             }
+            IsNeedToDrawSpot = (PositionPrevious != Position);
+            Hue += 8;
 
             base.Update(time);
         }
 
         public override void Draw(GameTime time) {
-            Program.Thread.SpriteBatch.Draw(Texture, Position, origin: new Vector2(Texture.Width / 2f, Texture.Height / 2f), scale: new Vector2(1f), color: Color.White);
+            Program.Thread.SpriteBatch.Draw(Texture, Position, origin: new Vector2(Texture.Width / 2f, Texture.Height / 2f), scale: new Vector2(ToLeft ? 1 : -1, 1), color: Color.White);
         }
 
         public void DrawSpot(GameTime time) {
-            Program.Thread.SpriteBatch.Draw(Program.Thread.SpotTexture, Position, origin: new Vector2(Program.Thread.SpotTexture.Width / 2f, Program.Thread.SpotTexture.Height / 2f), scale: new Vector2(1f), color: Color.Red, rotation: SimpleUtils.Random((float)Math.PI * 2));
+            Program.Thread.SpriteBatch.Draw(Program.Thread.SpotTexture, Position, origin: new Vector2(Program.Thread.SpotTexture.Width / 2f, Program.Thread.SpotTexture.Height / 2f), scale: new Vector2(1f), color: SimpleUtils.ColorFromHSV(Hue, 0.8f, 1f), rotation: SimpleUtils.Random((float)Math.PI * 2));
         }
     }
 }
