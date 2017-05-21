@@ -42,9 +42,11 @@ namespace RainbowAndTheDark {
         }
 
         public override void Draw(GameTime time) {
+            Program.Thread.SpriteBatch.Draw(Texture, Position, origin: new Vector2(Texture.Width / 2f, Texture.Height / 2f), scale: new Vector2(1f), color: Color.White);
+        }
 
-            Program.Thread.SpriteBatch.Draw(Texture, new Rectangle(Position.ToPoint( ) - HalfSize + (ToLeft ? new Point(0) : new Point(32, 0)), new Point((ToLeft ? 32 : -32), 32)), Color.White);
-
+        public void DrawSpot(GameTime time) {
+            Program.Thread.SpriteBatch.Draw(Program.Thread.SpotTexture, Position, origin: new Vector2(Program.Thread.SpotTexture.Width / 2f, Program.Thread.SpotTexture.Height / 2f), scale: new Vector2(1f), color: Color.Red, rotation: SimpleUtils.Random((float)Math.PI * 2));
         }
     }
 }
