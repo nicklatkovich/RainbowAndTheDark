@@ -46,7 +46,6 @@ namespace RainbowAndTheDark {
         protected override void LoadContent( ) {
             SpriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: load content
             this.FontArial = Content.Load<SpriteFont>("Fonts/Arial");
             glslAddColor = Content.Load<Effect>("Shaders/AddColors");
             Resources.LoadContent(Content);
@@ -99,7 +98,6 @@ namespace RainbowAndTheDark {
 
             GraphicsDevice.Clear(Color.Black);
 
-            // TODO: drawing code
             glslAddColor.Parameters["ColorTexture"].SetValue(ColorsRender);
             this.SpriteBatch.Begin(rasterizerState: RasterizerState.CullNone, effect: glslAddColor);
             this.SpriteBatch.Draw(MapRender, new Rectangle(0, 0, MapRender.Width, MapRender.Height), Color.White);

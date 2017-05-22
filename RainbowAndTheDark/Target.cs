@@ -10,6 +10,8 @@ namespace RainbowAndTheDark {
         bool CreateNewEnemy = false;
         float Hue = Utils.Random( );
         bool IsFistDrawSpot = true;
+        uint __Chastota__ = 60; // TODO: Rename
+        uint StepsToSpoot = 0;
 
         public Target( ) : base(Vector2.Zero) {
             MoveToRandomPosition( );
@@ -46,8 +48,13 @@ namespace RainbowAndTheDark {
 
         public void DrawSpot(SpriteBatch spriteBatch, GameTime time) {
             if (NeedDraw) {
-                spriteBatch.DrawSprite(Resources.Get[IsFistDrawSpot ? Resources.SPRITE.Spot : Resources.SPRITE.SmallSpot], Position, Utils.ColorFromHSV(Hue, 0.8f, 1f), rotation: Utils.Random(Utils.TWO_PI));
+                spriteBatch.DrawSprite(Resources.Get[IsFistDrawSpot || StepsToSpoot == 0 ? Resources.SPRITE.Spot : Resources.SPRITE.SmallSpot], Position, Utils.ColorFromHSV(Hue, 0.8f, 1f), rotation: Utils.Random(Utils.TWO_PI));
                 IsFistDrawSpot = false;
+                if (StepsToSpoot == 0) {
+                    StepsToSpoot = __Chastota__;
+                } else {
+                    StepsToSpoot--;
+                }
             }
         }
 
