@@ -22,10 +22,10 @@ namespace RainbowAndTheDark {
 
         public override void Update(GameTime time) {
             Vector2 xy = Position;
-            if (Program.Thread.Keyboard.IsKeyDown(Keys.A)) {
+            if (Input.Keyboard.IsKeyDown(Keys.A)) {
                 xy.X -= MaxSpeed.X;
             }
-            if (Program.Thread.Keyboard.IsKeyDown(Keys.D)) {
+            if (Input.Keyboard.IsKeyDown(Keys.D)) {
                 xy.X += MaxSpeed.X;
             }
             if (xy.X != Position.X) {
@@ -35,10 +35,10 @@ namespace RainbowAndTheDark {
                     xy.X = Position.X;
                 }
             }
-            if (Program.Thread.Keyboard.IsKeyDown(Keys.W)) {
+            if (Input.Keyboard.IsKeyDown(Keys.W)) {
                 xy.Y -= MaxSpeed.Y;
             }
-            if (Program.Thread.Keyboard.IsKeyDown(Keys.S)) {
+            if (Input.Keyboard.IsKeyDown(Keys.S)) {
                 xy.Y += MaxSpeed.Y;
             }
             if (xy.Y != Position.Y) {

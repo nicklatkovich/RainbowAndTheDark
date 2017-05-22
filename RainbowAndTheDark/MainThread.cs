@@ -8,8 +8,6 @@ namespace RainbowAndTheDark {
     public class MainThread : Game {
         GraphicsDeviceManager Graphics;
         public SpriteBatch SpriteBatch { get; protected set; }
-        public KeyboardState Keyboard { get; protected set; }
-        public KeyboardState KeyboardPrevious { get; protected set; } = Utils.GetKeyboardState( );
 
         public readonly UPoint MAP_SIZE = new UPoint(20, 10);
 
@@ -75,10 +73,7 @@ namespace RainbowAndTheDark {
         }
 
         protected override void Update(GameTime time) {
-            Keyboard = Utils.GetKeyboardState( );
-            if (Keyboard.IsKeyDown(Keys.Escape)) {
-                Exit( );
-            }
+            Input.PreUpdate(time);
 
             this.Player.Update(time);
             this.Target.Update(time);
@@ -86,7 +81,6 @@ namespace RainbowAndTheDark {
                 e.Update(time);
             }
 
-            KeyboardPrevious = Keyboard;
             base.Update(time);
         }
 
