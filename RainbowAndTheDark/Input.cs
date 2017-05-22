@@ -12,5 +12,9 @@ namespace RainbowAndTheDark {
             Keyboard = Utils.GetKeyboardState( );
         }
 
+        public static bool IsKeyPressed(Keys key) {
+            return Keyboard.IsKeyDown(key) && KeyboardPrevious.IsKeyUp(key);
+        }
+
     }
 }

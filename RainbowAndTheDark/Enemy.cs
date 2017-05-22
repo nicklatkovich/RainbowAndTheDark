@@ -39,6 +39,13 @@ namespace RainbowAndTheDark {
                 TargetToMove = results[Utils.IRandom(results_size)];
                 Speed = (TargetToMove - PositionOnMap).ToVector2( ) * Program.Thread.CellSize / StepsToMove;
             }
+            if (Math.Abs(Position.X - Program.Thread.Player.Position.X) < 32 &&
+                Math.Abs(Position.Y - Program.Thread.Player.Position.Y) < 32) {
+                if (Program.Thread.GameIsOver == false) {
+                    Program.Thread.OtherInstances.Add(new GameOverLabel( ));
+                }
+                Program.Thread.GameIsOver = true;
+            }
 
             base.Update(time);
         }

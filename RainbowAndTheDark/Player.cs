@@ -25,37 +25,43 @@ namespace RainbowAndTheDark {
 
         public override void Update(GameTime time) {
             SpotIsSmall = true;
-            Vector2 xy = Position;
-            if (Input.Keyboard.IsKeyDown(Keys.A)) {
-                xy.X -= MaxSpeed.X;
-            }
-            if (Input.Keyboard.IsKeyDown(Keys.D)) {
-                xy.X += MaxSpeed.X;
-            }
-            if (xy.X != Position.X) {
-                if (Utils.PlaceFree(xy, MaskHalfSize, Program.Thread.Map, new UPoint(Program.Thread.CellSize))) {
-                    Position.X = xy.X;
-                } else {
-                    xy.X = Position.X;
+            if (Program.Thread.GameIsOver) {
+                if (Input.IsKeyPressed(Keys.Enter)) {
+                    Program.Thread.Restart( );
                 }
-            }
-            if (Input.Keyboard.IsKeyDown(Keys.W)) {
-                xy.Y -= MaxSpeed.Y;
-            }
-            if (Input.Keyboard.IsKeyDown(Keys.S)) {
-                xy.Y += MaxSpeed.Y;
-            }
-            if (xy.Y != Position.Y) {
-                if (Utils.PlaceFree(xy, MaskHalfSize, Program.Thread.Map, new UPoint(Program.Thread.CellSize))) {
-                    Position.Y = xy.Y;
-                } else {
-                    xy.Y = Position.Y;
+            } else {
+                Vector2 xy = Position;
+                if (Input.Keyboard.IsKeyDown(Keys.A)) {
+                    xy.X -= MaxSpeed.X;
                 }
-            }
-            if (Position.X < PositionPrevious.X) {
-                ToLeft = true;
-            } else if (Position.X > PositionPrevious.X) {
-                ToLeft = false;
+                if (Input.Keyboard.IsKeyDown(Keys.D)) {
+                    xy.X += MaxSpeed.X;
+                }
+                if (xy.X != Position.X) {
+                    if (Utils.PlaceFree(xy, MaskHalfSize, Program.Thread.Map, new UPoint(Program.Thread.CellSize))) {
+                        Position.X = xy.X;
+                    } else {
+                        xy.X = Position.X;
+                    }
+                }
+                if (Input.Keyboard.IsKeyDown(Keys.W)) {
+                    xy.Y -= MaxSpeed.Y;
+                }
+                if (Input.Keyboard.IsKeyDown(Keys.S)) {
+                    xy.Y += MaxSpeed.Y;
+                }
+                if (xy.Y != Position.Y) {
+                    if (Utils.PlaceFree(xy, MaskHalfSize, Program.Thread.Map, new UPoint(Program.Thread.CellSize))) {
+                        Position.Y = xy.Y;
+                    } else {
+                        xy.Y = Position.Y;
+                    }
+                }
+                if (Position.X < PositionPrevious.X) {
+                    ToLeft = true;
+                } else if (Position.X > PositionPrevious.X) {
+                    ToLeft = false;
+                }
             }
             IsNeedToDrawSpot = (PositionPrevious != Position);
             Hue += 0.02f;
@@ -68,11 +74,15 @@ namespace RainbowAndTheDark {
         }
 
         public override void Draw(SpriteBatch spriteBatch, GameTime time) {
-            spriteBatch.DrawSprite(Resources.Get[Resources.SPRITE.Player], Position, scale: new Vector2(ToLeft ? 1 : -1, 1));
+            if (Program.Thread.GameIsOver == false) {
+                spriteBatch.DrawSprite(Resources.Get[Resources.SPRITE.Player], Position, scale: new Vector2(ToLeft ? 1 : -1, 1));
+            }
         }
 
         public void DrawSpot(SpriteBatch spriteBatch, GameTime time) {
-            spriteBatch.DrawSprite(Resources.Get[SpotIsSmall ? Resources.SPRITE.SmallSpot : Resources.SPRITE.Spot], Position, Utils.ColorFromHSV(Hue, 0.8f, 1f), rotation: Utils.Random(Utils.TWO_PI));
+            if (Program.Thread.GameIsOver == false) {
+                spriteBatch.DrawSprite(Resources.Get[SpotIsSmall ? Resources.SPRITE.SmallSpot : Resources.SPRITE.Spot], Position, Utils.ColorFromHSV(Hue, 0.8f, 1f), rotation: Utils.Random(Utils.TWO_PI));
+            }
         }
     }
 }

@@ -23,12 +23,22 @@ namespace RainbowAndTheDark {
             }
         }
 
+        public SpriteFont this[FONT font] {
+            get {
+                return Fonts[font];
+            }
+        }
+
         public enum SPRITE {
             Player,
             Spot,
             SmallSpot,
             Wall,
             Eues,
+        }
+
+        public enum FONT {
+            Fuehrer64,
         }
 
         private static Vector2 Center = new Vector2(0.5f);
@@ -42,7 +52,12 @@ namespace RainbowAndTheDark {
             new Tuple<SPRITE, string, Vector2>(SPRITE.Eues, "Instances/Characters/Enemy0", Center),
         };
 
+        private static Tuple<FONT, string>[ ] FontSources = new Tuple<FONT, string>[ ] {
+            new Tuple<FONT, string>(FONT.Fuehrer64, "Fonts/Fuehrer64"),
+        };
+
         private static Dictionary<SPRITE, Sprite> Sprites = new Dictionary<SPRITE, Sprite>( );
+        private static Dictionary<FONT, SpriteFont> Fonts = new Dictionary<FONT, SpriteFont>( );
 
         public static Sprite GetSprite(SPRITE sprite) {
             return Sprites[sprite];
@@ -51,6 +66,9 @@ namespace RainbowAndTheDark {
         public static void LoadContent(ContentManager contentManager) {
             foreach (var a in SpriteSources) {
                 Sprites.Add(a.Item1, new Sprite(contentManager.Load<Texture2D>(a.Item2), a.Item3));
+            }
+            foreach (var a in FontSources) {
+                Fonts.Add(a.Item1, contentManager.Load<SpriteFont>(a.Item2));
             }
         }
 

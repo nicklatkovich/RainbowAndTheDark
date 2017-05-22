@@ -43,6 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Enemy.cs" />
+    <Compile Include="GameOverLabel.cs" />
     <Compile Include="Grid.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Instance.cs" />

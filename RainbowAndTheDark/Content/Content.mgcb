@@ -86,3 +86,10 @@
 /processorParam:TextureFormat=Color
 /build:Instances/Colors/SmallSpot.png
 
+#begin Fonts/Fuehrer64.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Fuehrer64.spritefont
+
