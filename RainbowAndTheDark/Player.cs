@@ -15,12 +15,16 @@ namespace RainbowAndTheDark {
         bool ToLeft = true;
         Vector2 MaxSpeed = new Vector2(5);
         public bool IsNeedToDrawSpot { get; protected set; } = true;
+        bool SpotIsSmall;
+        Vector2 DMove = Vector2.Zero;
+
         public float Hue = 0f;
 
         public Player(Vector2 position) : base(position) {
         }
 
         public override void Update(GameTime time) {
+            SpotIsSmall = true;
             Vector2 xy = Position;
             if (Input.Keyboard.IsKeyDown(Keys.A)) {
                 xy.X -= MaxSpeed.X;
@@ -55,6 +59,10 @@ namespace RainbowAndTheDark {
             }
             IsNeedToDrawSpot = (PositionPrevious != Position);
             Hue += 0.02f;
+            if (DMove == Vector2.Zero && Position - PositionPrevious != Vector2.Zero) {
+                SpotIsSmall = false;
+            }
+            DMove = Position - PositionPrevious;
 
             base.Update(time);
         }
@@ -64,7 +72,7 @@ namespace RainbowAndTheDark {
         }
 
         public void DrawSpot(SpriteBatch spriteBatch, GameTime time) {
-            spriteBatch.DrawSprite(Resources.Get[Resources.SPRITE.SmallSpot], Position, Utils.ColorFromHSV(Hue, 0.8f, 1f), rotation: Utils.Random(Utils.TWO_PI));
+            spriteBatch.DrawSprite(Resources.Get[SpotIsSmall ? Resources.SPRITE.SmallSpot : Resources.SPRITE.Spot], Position, Utils.ColorFromHSV(Hue, 0.8f, 1f), rotation: Utils.Random(Utils.TWO_PI));
         }
     }
 }
