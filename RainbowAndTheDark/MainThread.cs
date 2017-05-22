@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 
 namespace RainbowAndTheDark {
     public class MainThread : Game {
@@ -19,8 +20,12 @@ namespace RainbowAndTheDark {
         Texture2D WallTexture;
         public Texture2D SpotTexture { get; protected set; }
         public SpriteFont FontArial;
-        Player Player;
+        public Player Player { get; protected set; }
         Effect glslAddColor;
+        Target Target;
+
+        public List<Enemy> Enemies = new List<Enemy>( );
+        public uint EnemiesMaxCount = 4;
 
         public MainThread( ) {
             this.Graphics = new GraphicsDeviceManager(this);
@@ -37,6 +42,7 @@ namespace RainbowAndTheDark {
             this.MapRender = new RenderTarget2D(this.GraphicsDevice, (Int32)(CellSize * MAP_SIZE.X), (Int32)(CellSize * MAP_SIZE.X));
             this.ColorsRender = new RenderTarget2D(this.GraphicsDevice, (Int32)(CellSize * MAP_SIZE.X), (Int32)(CellSize * MAP_SIZE.X), false, SurfaceFormat.Color, DepthFormat.None, 1, RenderTargetUsage.PreserveContents);
             this.Player = new Player((maze.Item2.ToVector2( ) + new Vector2(0.5f)) * CellSize);
+            this.Target = new Target( );
 
             base.Initialize( );
         }
@@ -52,7 +58,7 @@ namespace RainbowAndTheDark {
             glslAddColor = Content.Load<Effect>("Shaders/AddColors");
 
             GraphicsDevice.SetRenderTarget(ColorsRender);
-            GraphicsDevice.Clear(Color.Transparent);
+            GraphicsDevice.Clear(Color.White);
 
             GraphicsDevice.SetRenderTarget(MapRender);
             GraphicsDevice.Clear(Color.DarkGray);
@@ -81,19 +87,27 @@ namespace RainbowAndTheDark {
             }
 
             this.Player.Update(time);
+            this.Target.Update(time);
+            foreach (var e in Enemies) {
+                e.Update(time);
+            }
 
             KeyboardPrevious = Keyboard;
             base.Update(time);
         }
 
         protected override void Draw(GameTime time) {
+            GraphicsDevice.SetRenderTarget(ColorsRender);
+            this.SpriteBatch.Begin(rasterizerState: RasterizerState.CullNone);
             if (Player.IsNeedToDrawSpot) {
-                GraphicsDevice.SetRenderTarget(ColorsRender);
-                this.SpriteBatch.Begin(rasterizerState: RasterizerState.CullNone);
                 this.Player.DrawSpot(time);
-                this.SpriteBatch.End( );
-                GraphicsDevice.SetRenderTarget(null);
             }
+            this.Target.DrawSpot(time);
+            foreach (var e in Enemies) {
+                e.DrawSpot(time);
+            }
+            this.SpriteBatch.End( );
+            GraphicsDevice.SetRenderTarget(null);
 
             GraphicsDevice.Clear(Color.Black);
 

@@ -42,6 +42,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Enemy.cs" />
     <Compile Include="Grid.cs" />
     <Compile Include="Instance.cs" />
     <Compile Include="MainThread.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleUtils.cs" />
+    <Compile Include="Target.cs" />
     <Compile Include="UPoint.cs" />
   </ItemGroup>
   <ItemGroup>

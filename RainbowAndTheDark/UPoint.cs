@@ -26,6 +26,14 @@ namespace RainbowAndTheDark {
             return new Point((int)p1.X + p2.X, (int)p1.Y + p2.Y);
         }
 
+        public static Point operator - (UPoint p1, UPoint p2) {
+            return new Point((int)(p1.X - p2.X), (int)(p1.Y - p2.Y));
+        }
+
+        public static explicit operator UPoint(Vector2 v) {
+            return new UPoint((uint)v.X, (uint)v.Y);
+        }
+
         public static explicit operator UPoint(Point p) {
             return new UPoint((uint)Math.Abs(p.X), (uint)Math.Abs(p.Y));
         }

@@ -12,7 +12,7 @@ namespace RainbowAndTheDark {
 
         public static Texture2D Texture;
         Point HalfSize = new Point(16, 16);
-        Vector2 MaskHalfSize = new Vector2(10, 16);
+        public Vector2 MaskHalfSize { get; protected set; } = new Vector2(10, 16);
         bool ToLeft = true;
         Vector2 MaxSpeed = new Vector2(3);
         public bool IsNeedToDrawSpot { get; protected set; } = true;
