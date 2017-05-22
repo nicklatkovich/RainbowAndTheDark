@@ -44,6 +44,12 @@
 /processorParam:TextureFormat=Color
 /build:Instances/Characters/Player.png
 
+#begin Shaders/AddColors.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/AddColors.fx
+
 #begin Instances/Colors/Spot.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -56,9 +62,27 @@
 /processorParam:TextureFormat=Color
 /build:Instances/Colors/Spot.png
 
-#begin Shaders/AddColors.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:Shaders/AddColors.fx
+#begin Instances/Characters/Enemy0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Instances/Characters/Enemy0.png
+
+#begin Instances/Colors/SmallSpot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Instances/Colors/SmallSpot.png
 

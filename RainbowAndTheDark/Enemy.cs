@@ -4,15 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace RainbowAndTheDark {
-    public class Enemy : Instance {
+    public class Enemy : Instance, ISpottable {
 
         public UPoint PositionOnMap;
         public UPoint TargetToMove;
         public Vector2 Speed;
         public uint Step = 0u;
         public uint StepsToMove = 32u;
+
+        public static Texture2D Eyes;
 
         public Enemy(UPoint pos) : base((pos.ToVector2( ) + new Vector2(0.5f)) * Program.Thread.CellSize) {
             this.TargetToMove = pos;
@@ -28,24 +31,25 @@ namespace RainbowAndTheDark {
                 UPoint[ ] results = new UPoint[4];
                 uint results_size = 0;
                 for (uint i = 0; i < 4; i++) {
-                    UPoint new_target = (UPoint)(PositionOnMap + SimpleUtils.Dd(i));
+                    UPoint new_target = (UPoint)(PositionOnMap + Utils.Dd(i));
                     if (Program.Thread.Map[new_target] == 0) {
                         results[results_size++] = new_target;
                     }
                 }
-                TargetToMove = results[SimpleUtils.IRandom(results_size)];
+                TargetToMove = results[Utils.IRandom(results_size)];
                 Speed = (TargetToMove - PositionOnMap).ToVector2( ) * Program.Thread.CellSize / StepsToMove;
             }
 
             base.Update(time);
         }
 
-        public void DrawSpot(GameTime time) {
-            Program.Thread.SpriteBatch.Draw(Program.Thread.SpotTexture, Position, origin: new Vector2(Program.Thread.SpotTexture.Width / 2f, Program.Thread.SpotTexture.Height / 2f), scale: new Vector2(1f), color: Color.Black, rotation: SimpleUtils.Random((float)Math.PI * 2));
+        public void DrawSpot(SpriteBatch spriteBatch, GameTime time) {
+            bool largeSpot = Utils.IRandom(32) == 0;
+            spriteBatch.DrawSprite(Resources.Get[largeSpot ? Resources.SPRITE.Spot : Resources.SPRITE.SmallSpot], Position, Color.Black, rotation: Utils.Random(Utils.TWO_PI));
         }
 
-
-        public override void Draw(GameTime time) {
+        public override void Draw(SpriteBatch spriteBatch, GameTime time) {
+            spriteBatch.DrawSprite(Resources.Get[Resources.SPRITE.Eues], Position, scale: new Vector2(0.5f));
         }
     }
 }

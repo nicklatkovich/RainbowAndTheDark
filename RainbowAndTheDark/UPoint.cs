@@ -42,5 +42,9 @@ namespace RainbowAndTheDark {
             return new Vector2(X, Y);
         }
 
+        public static Point operator / (Point p1, UPoint p2) {
+            return new Point(p1.X / (int)p2.X, p1.Y / (int)p2.Y);
+        }
+
     }
 }

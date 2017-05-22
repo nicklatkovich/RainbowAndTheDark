@@ -5,6 +5,8 @@ namespace RainbowAndTheDark {
     public abstract class Instance {
 
         public Vector2 Position;
+        public bool IsFirstStep { get; private set; } = true;
+        public bool IsFirstDraw { get; private set; } = true;
         public Vector2 PositionPrevious {
             get;
             protected set;
@@ -17,9 +19,12 @@ namespace RainbowAndTheDark {
 
         public virtual void Update(GameTime time) {
             this.PositionPrevious = this.Position;
+            IsFirstStep = false;
         }
 
-        public abstract void Draw(GameTime time);
+        public virtual void Draw(SpriteBatch spriteBatch, GameTime time) {
+            IsFirstDraw = false;
+        }
 
     }
 }

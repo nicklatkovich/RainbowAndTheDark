@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace RainbowAndTheDark {
-    public static class SimpleUtils {
+    public static class Utils {
 
         private static Random _rand = new Random( );
 
@@ -138,9 +139,10 @@ namespace RainbowAndTheDark {
             return new Tuple<Grid<uint>, UPoint>(result, start_pos);
         }
 
-        public static Color ColorFromHSV(double hue, double saturation, double value) {
-            int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
-            double f = hue / 60 - Math.Floor(hue / 60);
+        public static Color ColorFromHSV(float hue, float saturation, float value) {
+            float hue6 = hue * 6f;
+            int hi = Convert.ToInt32(Math.Floor(hue6)) % 6;
+            double f = hue6 - Math.Floor(hue6);
 
             value = value * 255;
             int v = Convert.ToInt32(value);
@@ -179,6 +181,16 @@ namespace RainbowAndTheDark {
         public static Vector2 Abs(this Vector2 v) {
             return new Vector2(Math.Abs(v.X), Math.Abs(v.Y));
         }
+
+        public static void DrawSprite(this SpriteBatch spriteBatch, Sprite sprite, Vector2 position, Color color, Vector2 scale, float rotation = 0f) {
+            spriteBatch.Draw(sprite.Texture, position, origin: sprite.Offset, rotation: rotation, color: color, scale: scale);
+        }
+        
+        public static void DrawSprite(this SpriteBatch spriteBatch, Sprite sprite, Vector2 position, Color? color = null, Vector2? scale = null, float rotation = 0f) {
+            spriteBatch.DrawSprite(sprite, position, color == null ? Color.White : color.Value, scale == null ? new Vector2(1f) : scale.Value, rotation);
+        }
+
+        public static readonly float TWO_PI = (float)(Math.PI * 2);
 
     }
 }
