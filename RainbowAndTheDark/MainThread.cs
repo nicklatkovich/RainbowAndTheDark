@@ -125,13 +125,13 @@ namespace RainbowAndTheDark {
                 this.Player.DrawSpot(SpriteBatch, time);
             }
             this.Target.DrawSpot(SpriteBatch, time);
-            foreach (var e in Enemies) {
-                e.DrawSpot(SpriteBatch, time);
-            }
             foreach (var a in OtherInstances) {
                 if (a is ISpottable) {
                     (a as ISpottable).DrawSpot(SpriteBatch, time);
                 }
+            }
+            foreach (var e in Enemies) {
+                e.DrawSpot(SpriteBatch, time);
             }
             this.SpriteBatch.End( );
             GraphicsDevice.SetRenderTarget(null);

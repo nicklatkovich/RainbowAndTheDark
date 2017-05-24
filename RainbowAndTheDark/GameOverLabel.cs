@@ -36,8 +36,8 @@ namespace RainbowAndTheDark {
         }
 
         public void DrawSpot(SpriteBatch spriteBatch, GameTime time) {
-            Vector2 halfStringMeasure = Resources.Get[Resources.FONT.Fuehrer64].MeasureString("Game Over") / 2f;
-            if (Utils.IRandom(10) == 0) {
+            if (Program.Thread.GameIsOver) {
+                Vector2 halfStringMeasure = Resources.Get[Resources.FONT.Fuehrer64].MeasureString("Game Over") / 2f;
                 spriteBatch.DrawSprite(Resources.Get[Resources.SPRITE.Spot], new Vector2(
                     Utils.Random(-halfStringMeasure.X, halfStringMeasure.X) + Program.Thread.Graphics.PreferredBackBufferWidth / 2,
                     Utils.Random(-halfStringMeasure.Y, halfStringMeasure.Y) + Program.Thread.Graphics.PreferredBackBufferHeight / 2),
