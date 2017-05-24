@@ -52,7 +52,8 @@ namespace RainbowAndTheDark {
 
         public void DrawSpot(SpriteBatch spriteBatch, GameTime time) {
             bool largeSpot = Utils.IRandom(32) == 0;
-            spriteBatch.DrawSprite(Resources.Get[largeSpot ? Resources.SPRITE.Spot : Resources.SPRITE.SmallSpot], Position, Color.Black, rotation: Utils.Random(Utils.TWO_PI));
+            Color color = Program.Thread.GameIsOver ? Utils.ColorFromHSV(Program.Thread.Player.Hue, 0.8f, 1f) : Color.Black;
+            spriteBatch.DrawSprite(Resources.Get[largeSpot ? Resources.SPRITE.Spot : Resources.SPRITE.SmallSpot], Position, color, rotation: Utils.Random(Utils.TWO_PI));
         }
 
         public override void Draw(SpriteBatch spriteBatch, GameTime time) {

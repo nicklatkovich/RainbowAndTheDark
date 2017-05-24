@@ -21,7 +21,11 @@ namespace RainbowAndTheDark {
         }
 
         public static float Random(float maxValue = 1f) {
-            return (float)_rand.NextDouble( ) * maxValue;
+            return Random(0, maxValue);
+        }
+
+        public static float Random(float minValue, float maxValue) {
+            return (float)_rand.NextDouble( ) * (maxValue - minValue) + minValue;
         }
 
         public static readonly Int32[ ] Dx = new Int32[ ] { 1, 0, -1, 0 };

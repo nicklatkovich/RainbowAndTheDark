@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace RainbowAndTheDark {
     public class MainThread : Game {
-        GraphicsDeviceManager Graphics;
+        public GraphicsDeviceManager Graphics { get; protected set; }
         public SpriteBatch SpriteBatch { get; protected set; }
 
         public readonly UPoint MAP_SIZE = new UPoint(20, 10);
@@ -57,6 +57,10 @@ namespace RainbowAndTheDark {
                 }
             }
             SpriteBatch.End( );
+            this.GraphicsDevice.SetRenderTarget(null);
+
+            GraphicsDevice.SetRenderTarget(ColorsRender);
+            GraphicsDevice.Clear(Color.Transparent);
             this.GraphicsDevice.SetRenderTarget(null);
         }
 
@@ -123,6 +127,11 @@ namespace RainbowAndTheDark {
             this.Target.DrawSpot(SpriteBatch, time);
             foreach (var e in Enemies) {
                 e.DrawSpot(SpriteBatch, time);
+            }
+            foreach (var a in OtherInstances) {
+                if (a is ISpottable) {
+                    (a as ISpottable).DrawSpot(SpriteBatch, time);
+                }
             }
             this.SpriteBatch.End( );
             GraphicsDevice.SetRenderTarget(null);

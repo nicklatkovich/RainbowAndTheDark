@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace RainbowAndTheDark {
-    public class GameOverLabel : Instance {
+    public class GameOverLabel : Instance, ISpottable {
 
         public float alpha = 0f;
         public bool Create = true;
@@ -29,10 +29,20 @@ namespace RainbowAndTheDark {
         }
 
         public override void Draw(SpriteBatch spriteBatch, GameTime time) {
-            spriteBatch.DrawString(Resources.Get[Resources.FONT.Fuehrer64], "Game Over", Vector2.Zero, new Color(1f, 0f, 0f, alpha));
+            //spriteBatch.DrawString(Resources.Get[Resources.FONT.Fuehrer64], "Game Over", Vector2.Zero, new Color(1f, 0f, 0f, alpha));
+            spriteBatch.DrawString(Resources.Get[Resources.FONT.Fuehrer64], "Game Over", new Vector2(Program.Thread.Graphics.PreferredBackBufferWidth / 2, Program.Thread.Graphics.PreferredBackBufferHeight / 2), new Color(0f, 0f, 0f, alpha), 0f, Resources.Get[Resources.FONT.Fuehrer64].MeasureString("Game Over") / 2f, 1f, SpriteEffects.None, 0);
 
             base.Draw(spriteBatch, time);
         }
 
+        public void DrawSpot(SpriteBatch spriteBatch, GameTime time) {
+            Vector2 halfStringMeasure = Resources.Get[Resources.FONT.Fuehrer64].MeasureString("Game Over") / 2f;
+            if (Utils.IRandom(10) == 0) {
+                spriteBatch.DrawSprite(Resources.Get[Resources.SPRITE.Spot], new Vector2(
+                    Utils.Random(-halfStringMeasure.X, halfStringMeasure.X) + Program.Thread.Graphics.PreferredBackBufferWidth / 2,
+                    Utils.Random(-halfStringMeasure.Y, halfStringMeasure.Y) + Program.Thread.Graphics.PreferredBackBufferHeight / 2),
+                    Utils.ColorFromHSV(Utils.Random(1), 0.8f, 1f), rotation: Utils.Random(Utils.TWO_PI));
+            }
+        }
     }
 }
