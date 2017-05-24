@@ -55,6 +55,7 @@ namespace RainbowAndTheDark {
                     Program.Thread.OtherInstances.Add(new GameOverLabel( ));
                 }
                 Program.Thread.GameIsOver = true;
+                Program.Thread.Enemies.Clear( );
             }
 
             base.Update(time);

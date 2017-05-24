@@ -108,7 +108,7 @@ namespace RainbowAndTheDark {
 
             this.Player.Update(time);
             this.Target.Update(time);
-            foreach (var e in Enemies) {
+            foreach (var e in Enemies.ToArray( )) {
                 e.Update(time);
             }
             foreach (var a in OtherInstances.ToArray( )) {
