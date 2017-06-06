@@ -217,5 +217,23 @@ namespace RainbowAndTheDark {
             return Shuffle(source.ToArray( ));
         }
 
+        public static T[ ] ShuffleStruct<T>(T[ ] source) where T : struct {
+            T[ ] result = source.Clone( ) as T[ ];
+            for (uint i = 0; i < result.Length; i++) {
+                uint j = IRandom((uint)result.Length - 1);
+                if (j >= i) {
+                    j++;
+                }
+                T swap = result[i];
+                result[i] = result[j];
+                result[j] = swap;
+            }
+            return result;
+        }
+
+        public static T[ ] ShuffleStruct<T>(List<T> source) where T : struct {
+            return ShuffleStruct(source.ToArray( ));
+        }
+
     }
 }
