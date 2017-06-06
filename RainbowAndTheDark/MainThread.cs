@@ -77,6 +77,12 @@ namespace RainbowAndTheDark {
                     list.Add(new UPoint(x, y));
                 }
             }
+            UPoint[ ] shuffled = Utils.ShuffleStruct(list);
+            SpriteBatch.Begin( );
+            foreach (var a in shuffled) {
+                SpriteBatch.DrawSprite(Resources.Get[Resources.SPRITE.Spot], a.ToVector2( ), color: Utils.ColorFromHSV(Utils.Random( ), 0.8f, 1f));
+            }
+            SpriteBatch.End( );
             this.GraphicsDevice.SetRenderTarget(null);
         }
 

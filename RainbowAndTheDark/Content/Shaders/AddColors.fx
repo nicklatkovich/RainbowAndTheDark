@@ -24,11 +24,7 @@ float4 MainPS(VertexShaderOutput input) : COLOR {
 	float4 texCol = tex2D(SpriteTextureSampler, input.TextureCoordinates);
 	float4 colCol = tex2D(ColorTexture, input.TextureCoordinates);
 	float4 inCol = input.Color;
-	//if (colCol.a > 0.95f) {
-		return texCol * colCol * inCol;
-	//} else {
-	//	return texCol * inCol;
-	//}
+	return texCol * colCol * inCol;
 }
 
 technique SpriteDrawing {
