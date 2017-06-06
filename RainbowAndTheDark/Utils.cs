@@ -199,5 +199,23 @@ namespace RainbowAndTheDark {
 
         public static readonly float TWO_PI = (float)(Math.PI * 2);
 
+        public static T[ ] Shuffle<T>(T[ ] source) where T : class {
+            T[ ] result = source.Clone( ) as T[ ];
+            for (uint i = 0; i < result.Length; i++) {
+                uint j = IRandom((uint)result.Length - 1);
+                if (j >= i) {
+                    j++;
+                }
+                T swap = result[i];
+                result[i] = result[j];
+                result[j] = swap;
+            }
+            return result;
+        }
+
+        public static T[ ] Shuffle<T>(List<T> source) where T : class {
+            return Shuffle(source.ToArray( ));
+        }
+
     }
 }
