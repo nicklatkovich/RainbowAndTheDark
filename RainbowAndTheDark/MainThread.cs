@@ -3,11 +3,16 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace RainbowAndTheDark {
     public class MainThread : Game {
-        public GraphicsDeviceManager Graphics { get; protected set; }
-        public SpriteBatch SpriteBatch { get; protected set; }
+        public GraphicsDeviceManager Graphics {
+            get; protected set;
+        }
+        public SpriteBatch SpriteBatch {
+            get; protected set;
+        }
 
         public readonly UPoint MAP_SIZE = new UPoint(20, 10);
 
@@ -17,7 +22,9 @@ namespace RainbowAndTheDark {
         RenderTarget2D MapRender;
         RenderTarget2D ColorsRender;
         public SpriteFont FontArial;
-        public Player Player { get; protected set; }
+        public Player Player {
+            get; protected set;
+        }
         Effect glslAddColor;
         Target Target;
 
@@ -67,8 +74,8 @@ namespace RainbowAndTheDark {
         protected override void Initialize( ) {
             Tuple<Grid<uint>, UPoint> maze = Utils.CreateMaze(MAP_SIZE);
             Map = Utils.CreateMapFromMaze(maze.Item1);
-            this.MapRender = new RenderTarget2D(this.GraphicsDevice, (Int32)(CellSize * MAP_SIZE.X), (Int32)(CellSize * MAP_SIZE.X));
-            this.ColorsRender = new RenderTarget2D(this.GraphicsDevice, (Int32)(CellSize * MAP_SIZE.X), (Int32)(CellSize * MAP_SIZE.X), false, SurfaceFormat.Color, DepthFormat.None, 1, RenderTargetUsage.PreserveContents);
+            this.MapRender = new RenderTarget2D(this.GraphicsDevice, (Int32)(CellSize * MAP_SIZE.X), (Int32)(CellSize * MAP_SIZE.Y));
+            this.ColorsRender = new RenderTarget2D(this.GraphicsDevice, (Int32)(CellSize * MAP_SIZE.X), (Int32)(CellSize * MAP_SIZE.Y), false, SurfaceFormat.Color, DepthFormat.None, 1, RenderTargetUsage.PreserveContents);
             this.Player = new Player((maze.Item2.ToVector2( ) + new Vector2(0.5f)) * CellSize);
             this.Target = new Target( );
 
@@ -133,7 +140,14 @@ namespace RainbowAndTheDark {
             foreach (var e in Enemies) {
                 e.DrawSpot(SpriteBatch, time);
             }
-            this.SpriteBatch.End( );
+            try {
+                SpriteBatch.End( );
+            } catch (Exception e) {
+                MessageBox.Show(e.Message);
+                GraphicsDevice.SetRenderTarget(null);
+                this.Exit( );
+                return;
+            }
             GraphicsDevice.SetRenderTarget(null);
 
             GraphicsDevice.Clear(Color.Gray);

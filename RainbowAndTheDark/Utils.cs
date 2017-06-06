@@ -120,13 +120,13 @@ namespace RainbowAndTheDark {
                         Point d = Dd(i);
                         UPoint new_pos = (UPoint)(pos + d);
                         switch (result[new_pos]) {
-                            case 1:
-                                result[new_pos] = 3;
-                                break;
-                            case 0:
-                                result[new_pos] = 1;
-                                queue[queue_size++] = new_pos;
-                                break;
+                        case 1:
+                            result[new_pos] = 3;
+                            break;
+                        case 0:
+                            result[new_pos] = 1;
+                            queue[queue_size++] = new_pos;
+                            break;
                         }
                     }
                 }
@@ -155,15 +155,18 @@ namespace RainbowAndTheDark {
             int t = Convert.ToInt32(value * (1 - (1 - f) * saturation));
 
             switch (hi) {
-                case 0:
-                    return new Color(v, t, p);
-                case 1:
-                    return new Color(q, v, p);
-                case 2:
-                    return new Color(p, v, t);
-                case 3: return new Color(p, q, v);
-                case 4: return new Color(t, p, v);
-                default: return new Color(v, p, q);
+            case 0:
+                return new Color(v, t, p);
+            case 1:
+                return new Color(q, v, p);
+            case 2:
+                return new Color(p, v, t);
+            case 3:
+                return new Color(p, q, v);
+            case 4:
+                return new Color(t, p, v);
+            default:
+                return new Color(v, p, q);
             }
         }
 
@@ -189,7 +192,7 @@ namespace RainbowAndTheDark {
         public static void DrawSprite(this SpriteBatch spriteBatch, Sprite sprite, Vector2 position, Color color, Vector2 scale, float rotation = 0f) {
             spriteBatch.Draw(sprite.Texture, position, origin: sprite.Offset, rotation: rotation, color: color, scale: scale);
         }
-        
+
         public static void DrawSprite(this SpriteBatch spriteBatch, Sprite sprite, Vector2 position, Color? color = null, Vector2? scale = null, float rotation = 0f) {
             spriteBatch.DrawSprite(sprite, position, color == null ? Color.White : color.Value, scale == null ? new Vector2(1f) : scale.Value, rotation);
         }
