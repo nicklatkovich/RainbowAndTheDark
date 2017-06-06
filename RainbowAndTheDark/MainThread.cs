@@ -50,6 +50,7 @@ namespace RainbowAndTheDark {
             }
             Tuple<Grid<uint>, UPoint> maze = Utils.CreateMaze(MAP_SIZE);
             Map = Utils.CreateMapFromMaze(maze.Item1);
+            //Map = maze.Item1;
             this.Player = new Player((maze.Item2.ToVector2( ) + new Vector2(0.5f)) * CellSize);
             this.Target = new Target( );
             this.Enemies.Clear( );
@@ -72,12 +73,12 @@ namespace RainbowAndTheDark {
         }
 
         protected override void Initialize( ) {
-            Tuple<Grid<uint>, UPoint> maze = Utils.CreateMaze(MAP_SIZE);
-            Map = Utils.CreateMapFromMaze(maze.Item1);
             this.MapRender = new RenderTarget2D(this.GraphicsDevice, (Int32)(CellSize * MAP_SIZE.X), (Int32)(CellSize * MAP_SIZE.Y));
             this.ColorsRender = new RenderTarget2D(this.GraphicsDevice, (Int32)(CellSize * MAP_SIZE.X), (Int32)(CellSize * MAP_SIZE.Y), false, SurfaceFormat.Color, DepthFormat.None, 1, RenderTargetUsage.PreserveContents);
-            this.Player = new Player((maze.Item2.ToVector2( ) + new Vector2(0.5f)) * CellSize);
-            this.Target = new Target( );
+            //Tuple<Grid<uint>, UPoint> maze = Utils.CreateMaze(MAP_SIZE);
+            //Map = Utils.CreateMapFromMaze(maze.Item1);
+            //this.Player = new Player((maze.Item2.ToVector2( ) + new Vector2(0.5f)) * CellSize);
+            //this.Target = new Target( );
 
             base.Initialize( );
         }
@@ -89,21 +90,7 @@ namespace RainbowAndTheDark {
             glslAddColor = Content.Load<Effect>("Shaders/AddColors");
             Resources.LoadContent(Content);
 
-            GraphicsDevice.SetRenderTarget(ColorsRender);
-            GraphicsDevice.Clear(Color.Transparent);
-
-            GraphicsDevice.SetRenderTarget(MapRender);
-            GraphicsDevice.Clear(Color.DarkGray);
-            SpriteBatch.Begin( );
-            for (UInt32 i = 0; i < this.Map.Width; i++) {
-                for (UInt32 j = 0; j < this.Map.Height; j++) {
-                    if (this.Map[i, j] > 0) {
-                        this.SpriteBatch.DrawSprite(Resources.Get[Resources.SPRITE.Wall], new Vector2(i, j) * CellSize);
-                    }
-                }
-            }
-            SpriteBatch.End( );
-            this.GraphicsDevice.SetRenderTarget(null);
+            Restart( );
         }
 
         protected override void UnloadContent( ) {
