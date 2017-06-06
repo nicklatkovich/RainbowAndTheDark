@@ -69,6 +69,14 @@ namespace RainbowAndTheDark {
 
             GraphicsDevice.SetRenderTarget(ColorsRender);
             GraphicsDevice.Clear(Color.Transparent);
+            uint xstep = 32;
+            uint ystep = 32;
+            List<UPoint> list = new List<UPoint>( );
+            for (uint x = 0; x <= Graphics.PreferredBackBufferWidth; x += xstep) {
+                for (uint y = 0; y <= Graphics.PreferredBackBufferHeight; y += ystep) {
+                    list.Add(new UPoint(x, y));
+                }
+            }
             this.GraphicsDevice.SetRenderTarget(null);
         }
 
@@ -113,45 +121,45 @@ namespace RainbowAndTheDark {
         }
 
         protected override void Draw(GameTime time) {
-            GraphicsDevice.SetRenderTarget(ColorsRender);
-            this.SpriteBatch.Begin(rasterizerState: RasterizerState.CullNone);
-            if (Player.IsNeedToDrawSpot) {
-                this.Player.DrawSpot(SpriteBatch, time);
-            }
-            this.Target.DrawSpot(SpriteBatch, time);
-            foreach (var a in OtherInstances) {
-                if (a is ISpottable) {
-                    (a as ISpottable).DrawSpot(SpriteBatch, time);
-                }
-            }
-            foreach (var e in Enemies) {
-                e.DrawSpot(SpriteBatch, time);
-            }
-            try {
-                SpriteBatch.End( );
-            } catch (Exception e) {
-                MessageBox.Show(e.Message);
-                GraphicsDevice.SetRenderTarget(null);
-                this.Exit( );
-                return;
-            }
-            GraphicsDevice.SetRenderTarget(null);
+            //GraphicsDevice.SetRenderTarget(ColorsRender);
+            //this.SpriteBatch.Begin(rasterizerState: RasterizerState.CullNone);
+            //if (Player.IsNeedToDrawSpot) {
+            //    this.Player.DrawSpot(SpriteBatch, time);
+            //}
+            //this.Target.DrawSpot(SpriteBatch, time);
+            //foreach (var a in OtherInstances) {
+            //    if (a is ISpottable) {
+            //        (a as ISpottable).DrawSpot(SpriteBatch, time);
+            //    }
+            //}
+            //foreach (var e in Enemies) {
+            //    e.DrawSpot(SpriteBatch, time);
+            //}
+            //try {
+            //    SpriteBatch.End( );
+            //} catch (Exception e) {
+            //    MessageBox.Show(e.Message);
+            //    GraphicsDevice.SetRenderTarget(null);
+            //    this.Exit( );
+            //    return;
+            //}
+            //GraphicsDevice.SetRenderTarget(null);
 
-            GraphicsDevice.Clear(Color.Gray);
+            //GraphicsDevice.Clear(Color.Gray);
 
             glslAddColor.Parameters["ColorTexture"].SetValue(ColorsRender);
             this.SpriteBatch.Begin(rasterizerState: RasterizerState.CullNone, effect: glslAddColor);
             this.SpriteBatch.Draw(MapRender, new Rectangle(0, 0, MapRender.Width, MapRender.Height), Color.White);
             this.SpriteBatch.End( );
-            this.SpriteBatch.Begin(rasterizerState: RasterizerState.CullNone);
-            this.Player.Draw(SpriteBatch, time);
-            foreach (var e in Enemies) {
-                e.Draw(SpriteBatch, time);
-            }
-            foreach (var a in OtherInstances) {
-                a.Draw(SpriteBatch, time);
-            }
-            this.SpriteBatch.End( );
+            //this.SpriteBatch.Begin(rasterizerState: RasterizerState.CullNone);
+            //this.Player.Draw(SpriteBatch, time);
+            //foreach (var e in Enemies) {
+            //    e.Draw(SpriteBatch, time);
+            //}
+            //foreach (var a in OtherInstances) {
+            //    a.Draw(SpriteBatch, time);
+            //}
+            //this.SpriteBatch.End( );
 
             base.Draw(time);
         }
